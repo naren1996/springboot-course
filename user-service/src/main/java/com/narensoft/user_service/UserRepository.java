@@ -1,9 +1,14 @@
 package com.narensoft.user_service;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public class UserRepository extends CrudRepository<Long, User> {
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    Optional<User> findByName(String name);
 }
 
 

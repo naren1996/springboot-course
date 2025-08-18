@@ -18,9 +18,19 @@ public class UserController {
         return "Test API";
     }
 
-    @GetMapping("/read/all")
-    public String readAllUser() {
-        return userService.readAllUser();
+//    @GetMapping("/read/all")
+//    public String readAllUser() {
+//        return userService.readAllUser();
+//    }
+
+    @GetMapping("/get/{id}")
+    public String getUser(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
+
+    @GetMapping("/get2/{name}")
+    public String getUserByName(@PathVariable String name){
+        return userService.getUserByName(name);
     }
 
     @PostMapping("/create")
