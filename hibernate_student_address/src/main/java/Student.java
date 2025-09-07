@@ -1,7 +1,6 @@
 import jakarta.persistence.*;
 
 @Entity
-<<<<<<< HEAD
 @Table(name = "student")
 public class Student {
 
@@ -68,30 +67,5 @@ public class Student {
                 ", address=" + address +
                 '}';
     }
-=======
-@Table(name = "students")
 
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    private String name;
-
-    // One-to-One relation with Address
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id") // foreign key column in student table
-    private Address address;
-
-    // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public Address getAddress() { return address; }
-    public void setAddress(Address address) { this.address = address; }
-
->>>>>>> 968da03 (Example OneToOne mapping)
 }

@@ -3,7 +3,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-<<<<<<< HEAD
+
 import java.util.List;
 
 public class Main {
@@ -13,19 +13,13 @@ public class Main {
         Configuration cfg = new Configuration().configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Student.class)
                 .addAnnotatedClass(Address.class);
-
-=======
-public class Main {
-    public static void main(String[] args) {
-        Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
->>>>>>> 968da03 (Example OneToOne mapping)
         SessionFactory sessionFactory = cfg.buildSessionFactory();
         Session session = sessionFactory.openSession();
 
         Transaction tx = session.beginTransaction();
 
         // Create Address
-<<<<<<< HEAD
+
       //  Address address = new Address("MG Road", "Bengaluru", "560001");
 
         // Create Student with Address
@@ -90,14 +84,14 @@ public class Main {
 //
 //        System.out.println("Deleted rows: " + deleted);
 
-       // 7️⃣ Fetch Student with Address (JOIN FETCH)
-        List<Student> list = session.createQuery(
-                "SELECT s FROM Student s JOIN FETCH s.address", Student.class).list();
+//       // 7️⃣ Fetch Student with Address (JOIN FETCH)
+//        List<Student> list = session.createQuery(
+//                "SELECT s FROM Student s JOIN FETCH s.address", Student.class).list();
+//
+//        for (Student s : list) {
+//            System.out.println(s.getName() + " -> " + s.getAddress().getStreet());
+//        }
 
-        for (Student s : list) {
-            System.out.println(s.getName() + " -> " + s.getAddress().getStreet());
-        }
-=======
 //        Address addr = new Address();
 //        addr.setCity("Patna");
 //        addr.setState("Bihar");
@@ -126,29 +120,24 @@ public class Main {
 //        st3.setAddress(a3);
 
         // User 4
-        Address a4 = new Address();
-        a4.setCity("Pune");
-        a4.setState("Maharashtra");
-
-        Student st4 = new Student();
-        st4.setName("Narender");
-        st4.setAddress(a4);
+//        Address a4 = new Address();
+//        a4.setCity("Pune");
+//        a4.setState("Maharashtra");
+//
+//        Student st4 = new Student();
+//        st4.setName("Narender");
+//        st4.setAddress(a4);
 
 //        session.save(st);
 //        session.save(st2);
 //        session.save(st3);
-        session.save(st4);
+//        session.save(st4);
 
->>>>>>> 968da03 (Example OneToOne mapping)
+
 
         tx.commit();
         session.close();
         sessionFactory.close();
 
-<<<<<<< HEAD
-        System.out.println("✅ Student and Address saved successfully!!");
-=======
-        System.out.println("✅ Student and Address saved with foreign key!");
->>>>>>> 968da03 (Example OneToOne mapping)
     }
 }
