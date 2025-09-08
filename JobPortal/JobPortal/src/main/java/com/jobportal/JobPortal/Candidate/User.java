@@ -1,4 +1,4 @@
-package com.jobportal.JobPortal;
+package com.jobportal.JobPortal.Candidate;
 
 import jakarta.persistence.*;
 

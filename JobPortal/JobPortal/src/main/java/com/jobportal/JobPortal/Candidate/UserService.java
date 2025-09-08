@@ -1,4 +1,4 @@
-package com.jobportal.JobPortal;
+package com.jobportal.JobPortal.Candidate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +22,12 @@ public class UserService {
 
     //LOGIN
     public boolean login(String email, String password) {
-        return userRepository.findByEmail(email)
-                .filter(user -> user.getPassword().equals(password)) // check password if user exists
-                .isPresent(); // true if match found, false otherwise
+        User user = userRepository.findByEmail(email).orElse(null);
+
+        if(user != null && user.getPassword().equals(password)){
+            return true;
+        }
+        return false;
     }
 
     //Create User

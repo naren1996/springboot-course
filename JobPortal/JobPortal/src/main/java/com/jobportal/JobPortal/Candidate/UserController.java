@@ -1,4 +1,4 @@
-package com.jobportal.JobPortal;
+package com.jobportal.JobPortal.Candidate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
