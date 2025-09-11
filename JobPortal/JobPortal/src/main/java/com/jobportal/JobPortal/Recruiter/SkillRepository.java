@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface RecruiterRepository extends JpaRepository<Recruiter, Long> {
-
-    Optional<Recruiter> findByEmail(String email);
+public interface SkillRepository extends JpaRepository<Skill, Long> {
+    Optional<Skill> findById(Long skillId);
 }
