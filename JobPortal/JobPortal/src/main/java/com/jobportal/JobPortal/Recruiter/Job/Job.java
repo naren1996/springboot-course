@@ -1,5 +1,6 @@
-package com.jobportal.JobPortal.Recruiter;
-
+package com.jobportal.JobPortal.Recruiter.Job;
+import com.jobportal.JobPortal.Recruiter.Recruiters.Recruiter;
+import com.jobportal.JobPortal.Recruiter.Skill.Skill;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

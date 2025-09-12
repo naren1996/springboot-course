@@ -1,10 +1,9 @@
-package com.jobportal.JobPortal.Recruiter;
+package com.jobportal.JobPortal.Recruiter.Skill;
 
+import com.jobportal.JobPortal.Recruiter.Job.Job;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity

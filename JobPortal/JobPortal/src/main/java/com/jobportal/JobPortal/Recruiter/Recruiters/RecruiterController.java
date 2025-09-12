@@ -1,8 +1,6 @@
-package com.jobportal.JobPortal.Recruiter;
+package com.jobportal.JobPortal.Recruiter.Recruiters;
 import com.jobportal.JobPortal.Recruiter.dto.RecruiterLoginRequest;
 import com.jobportal.JobPortal.Recruiter.dto.RecruiterSignupRequest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

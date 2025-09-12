@@ -1,5 +1,6 @@
-package com.jobportal.JobPortal.Recruiter;
+package com.jobportal.JobPortal.Recruiter.Recruiters;
 
+import com.jobportal.JobPortal.Recruiter.Job.Job;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.jobportal.JobPortal.Recruiter;
+package com.jobportal.JobPortal.Recruiter.Recruiters;
 import com.jobportal.JobPortal.Recruiter.dto.RecruiterLoginRequest;
 import com.jobportal.JobPortal.Recruiter.dto.RecruiterSignupRequest;
 import org.springframework.beans.factory.annotation.Autowired;

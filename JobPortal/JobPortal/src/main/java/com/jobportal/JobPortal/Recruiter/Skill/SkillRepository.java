@@ -1,4 +1,4 @@
-package com.jobportal.JobPortal.Recruiter;
+package com.jobportal.JobPortal.Recruiter.Skill;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
