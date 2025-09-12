@@ -1,5 +1,6 @@
 package com.jobportal.JobPortal.Recruiter.Skill;
 import com.jobportal.JobPortal.Recruiter.Job.Job;
+import com.jobportal.JobPortal.Recruiter.Recruiters.Recruiter;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,11 @@ public class Skill {
 
     @ManyToMany(mappedBy = "skill")
     private Set<Job> job = new HashSet<>();
+
+
+    @ManyToOne
+    @JoinColumn(name = "recruiter_id", nullable = false)
+    private Recruiter recruiter;
 
     public Long getSkillId() {
         return skillId;
@@ -37,5 +43,13 @@ public class Skill {
 
     public void setJob(Set<Job> job) {
         this.job = job;
+    }
+
+    public Recruiter getRecruiter() {
+        return recruiter;
+    }
+
+    public void setRecruiter(Recruiter recruiter) {
+        this.recruiter = recruiter;
     }
 }
