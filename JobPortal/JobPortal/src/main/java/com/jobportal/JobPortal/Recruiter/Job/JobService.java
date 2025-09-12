@@ -4,6 +4,7 @@ import com.jobportal.JobPortal.Recruiter.Recruiters.RecruiterRepository;
 import com.jobportal.JobPortal.Recruiter.Skill.Skill;
 import com.jobportal.JobPortal.Recruiter.Skill.SkillRepository;
 import com.jobportal.JobPortal.Recruiter.dto.JobCreateRequest;
+import com.jobportal.JobPortal.Recruiter.dto.JobUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ public class JobService {
     @Autowired private RecruiterRepository recruiterRepository;
     @Autowired private SkillRepository skillRepository;
 
-    public Job createJob(JobCreateRequest request) {
+    public Job createJob(Long recruiterId, JobCreateRequest request) {
 
         // 1. Ensure recruiter exists
         Recruiter recruiter = recruiterRepository.findById(request.getRecruiterId())
@@ -43,25 +44,46 @@ public class JobService {
         return jobRepository.save(job);
     }
         //Get all jobs
-        public List<Job> getAllJobs() {
-            return jobRepository.findAll();
+        public List<Job> listJobsByRecruiter(Long recruiterId) {
+            return jobRepository.findByRecruiter_RecruiterId(recruiterId);
         }
+
 
         public Job getJob(Long jobId) {
             return jobRepository.findById(jobId)
                     .orElseThrow(() -> new RuntimeException("Job not found"));
         }
 
-        public Job updateJob(Long jobId, JobCreateRequest request) {
-            Job job = getJob(jobId);
-            job.setTitle(request.getTitle());
-            job.setDescription(request.getDescription());
-            job.setSkill(new HashSet<>(skillRepository.findAllById(request.getSkillId())));
+
+         public Job updateJob(Long recruiterId, Long jobId, JobUpdateRequest req) {
+            Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+            // recruiter check kare -> सिर्फ़ वही recruiter modify कर सके
+            if (!job.getRecruiter().getRecruiterId().equals(recruiterId)) {
+            throw new RuntimeException("Not authorized");
+             }
+
+            job.setTitle(req.getTitle());
+            job.setDescription(req.getDescription());
+            job.setSalaryPackage(req.getSalaryPackage());
+            job.setJobLocation(req.getJobLocation());
+            job.setExpiryDate(req.getExpiryDate());
+            // skills भी अपडेट करने हों तो skillRepo.findAllById(...)
             return jobRepository.save(job);
         }
 
-        public void deleteJob(Long jobId) {
-            jobRepository.deleteById(jobId);
+
+        public void deleteJob(Long recruiterId, Long jobId) {
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        if (!job.getRecruiter().getRecruiterId().equals(recruiterId)) {
+            throw new RuntimeException("Not authorized");
         }
+
+        jobRepository.delete(job);
+    }
+
 
 }
