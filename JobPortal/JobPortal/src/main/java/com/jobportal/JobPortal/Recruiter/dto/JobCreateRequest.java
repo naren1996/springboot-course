@@ -11,8 +11,6 @@ public class JobCreateRequest {
     private Long recruiterId;          // recruiter foreign key
     private Set<Long> skillId;        // list of skill IDs to attach
 
-//    // Constructors
-//    public JobCreateRequest() {}
 
     public Long getRecruiterId() {
         return recruiterId;
@@ -65,8 +63,7 @@ public class JobCreateRequest {
     public Set<Long> getSkillId() {
         return skillId;
     }
-
-    public void setSkillIds(Set<Long> skillIds) {
+    public void setSkillId(Set<Long> skillId) {
         this.skillId = skillId;
     }
 

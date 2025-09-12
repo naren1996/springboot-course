@@ -6,9 +6,7 @@ public class RecruiterSignupRequest {
     private String address;
     private String email;
     private String company;
-
-    private String phoneNumber;   // keep as String for flexibility
-
+    private String phoneNumber;
     private String password;
 
     public String getName() {

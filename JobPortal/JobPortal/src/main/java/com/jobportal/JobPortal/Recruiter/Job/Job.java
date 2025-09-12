@@ -2,7 +2,6 @@ package com.jobportal.JobPortal.Recruiter.Job;
 import com.jobportal.JobPortal.Recruiter.Recruiters.Recruiter;
 import com.jobportal.JobPortal.Recruiter.Skill.Skill;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,11 +19,9 @@ public class Job {
     private LocalDate postedDate;
     private LocalDate expiryDate;
 
-
     @ManyToOne
     @JoinColumn(name = "recruiter_id")
     private Recruiter recruiter;
-
 
     @ManyToMany
     @JoinTable(
@@ -112,17 +109,17 @@ public class Job {
         this.skill = skill;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Job{" +
-//                "jobId=" + jobId +
-//                ", title='" + title + '\'' +
-//                ", description='" + description + '\'' +
-//                ", jobLocation='" + jobLocation + '\'' +
-//                ", salaryPackage='" + salaryPackage + '\'' +
-//                ", postedDate=" + postedDate +
-//                ", expiryDate=" + expiryDate +
-//                ", skill=" + skill +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "Job{" +
+                "jobId=" + jobId +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", jobLocation='" + jobLocation + '\'' +
+                ", salaryPackage='" + salaryPackage + '\'' +
+                ", postedDate=" + postedDate +
+                ", expiryDate=" + expiryDate +
+                ", skill=" + skill +
+                '}';
+    }
 }

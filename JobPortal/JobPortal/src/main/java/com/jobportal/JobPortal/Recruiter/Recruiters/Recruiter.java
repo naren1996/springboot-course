@@ -22,6 +22,11 @@ public class Recruiter {
     private String company;
     private String password;
 
+    @OneToMany(mappedBy = "recruiter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Job> job = new HashSet<>();
+    public String getCompany() {
+        return company;
+    }
     public Set<Job> getJob() {
         return job;
     }
@@ -30,19 +35,9 @@ public class Recruiter {
         this.job = job;
     }
 
-    @OneToMany(mappedBy = "recruiter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Job> job = new HashSet<>();
-    public String getCompany() {
-        return company;
-    }
-
     public void setCompany(String company) {
         this.company = company;
     }
-
-
-
-
     public void setPhoneNumber(Double phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -89,17 +84,17 @@ public class Recruiter {
     public void setPassword(String password) {
         this.password = password;
     }
-    @Override
-    public String toString() {
-        return "Recruiter{" +
-                "recruiterId=" + recruiterId +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", company='" + company + '\'' +
-                ", job=" + job +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Recruiter{" +
+//                "recruiterId=" + recruiterId +
+//                ", name='" + name + '\'' +
+//                ", address='" + address + '\'' +
+//                ", email='" + email + '\'' +
+//                ", company='" + company + '\'' +
+//                ", job=" + job +
+//                '}';
+//    }
 
 }
 

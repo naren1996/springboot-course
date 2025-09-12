@@ -9,8 +9,7 @@ import java.util.Optional;
 @Service
 public class RecruiterService {
     @Autowired
-    private RecruiterRepository recruiterRepository;
-    //private final RecruiterRepository recruiterRepository;
+    private final RecruiterRepository recruiterRepository;
     public RecruiterService(RecruiterRepository recruiterRepository) {
         this.recruiterRepository = recruiterRepository;
 
@@ -24,10 +23,11 @@ public class RecruiterService {
         recruiter.setEmail(request.getEmail());
         recruiter.setCompany(request.getCompany());
         recruiter.setPhoneNumber(Double.valueOf(request.getPhoneNumber()));
-        recruiter.setPassword(request.getPassword()); // hash password
+        recruiter.setPassword(request.getPassword());
 
         recruiterRepository.save(recruiter);
     }
+
     public boolean emailExists(String email) {
         return recruiterRepository.findByEmail(email).isPresent();
     }
@@ -35,18 +35,16 @@ public class RecruiterService {
    //create User
     public String createUser(Recruiter recruiter){
     recruiterRepository.save(recruiter);
-    return "Requiter added successfully!";
+    return "Recruiter added successfully!";
    }
 
    //login
     public boolean login(RecruiterLoginRequest request){
         Optional<Recruiter> recruiterOpt = recruiterRepository.findByEmail(request.getEmail());
-
         if(recruiterOpt.isEmpty()) {
             return false;
         }
         Recruiter recruiter = recruiterOpt.get();
-
         return request.getPassword().equals(recruiter.getPassword());
     }
 }

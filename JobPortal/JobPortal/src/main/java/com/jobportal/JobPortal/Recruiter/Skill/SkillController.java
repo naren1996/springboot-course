@@ -1,8 +1,6 @@
 package com.jobportal.JobPortal.Recruiter.Skill;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -28,8 +26,7 @@ public class SkillController {
     }
 
     @PutMapping("/{skillId}")
-    public Skill updateSkill(@PathVariable Long skillId,
-                             @RequestBody Skill updatedSkill) {
+    public Skill updateSkill(@PathVariable Long skillId, @RequestBody Skill updatedSkill) {
         return skillService.updateSkill(skillId, updatedSkill);
     }
 

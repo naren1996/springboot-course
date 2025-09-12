@@ -1,5 +1,4 @@
 package com.jobportal.JobPortal.Recruiter.Job;
-
 import com.jobportal.JobPortal.Recruiter.dto.JobCreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
