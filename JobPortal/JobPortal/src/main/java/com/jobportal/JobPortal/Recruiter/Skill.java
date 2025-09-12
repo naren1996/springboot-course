@@ -3,7 +3,9 @@ package com.jobportal.JobPortal.Recruiter;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "skill")
@@ -13,8 +15,8 @@ public class Skill {
     private Long skillId;
     private String skillName;
 
-    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Job> jobs = new ArrayList<>();
+    @ManyToMany(mappedBy = "skill")
+    private Set<Job> jobs = new HashSet<>();
 
     public Long getSkillId() {
         return skillId;
@@ -31,12 +33,12 @@ public class Skill {
     public void setSkillName(String skillName) {
         this.skillName = skillName;
     }
-    public List<Job> getJobs() {
-        return jobs;
-    }
 
-    public void setJobs(List<Job> jobs) {
+    public void setJobs(Set<Job> jobs) {
         this.jobs = jobs;
     }
 
+    public Set<Job> getJobs() {
+        return jobs;
+    }
 }

@@ -12,6 +12,5 @@ public class JobPortalApplication {
 //        user.getEmail();
 
         SpringApplication.run(JobPortalApplication.class, args);
-	}
-
+    }
 }

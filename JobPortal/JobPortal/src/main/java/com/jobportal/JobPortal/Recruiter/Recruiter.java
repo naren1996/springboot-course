@@ -19,10 +19,25 @@ public class Recruiter {
     private String company;
     private String password;
 
-
-
     @OneToMany(mappedBy = "recruiter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Job> jobs =new ArrayList<>();
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+
 
     public void setPhoneNumber(Double phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -61,13 +76,7 @@ public class Recruiter {
     public Double getPhoneNumber() {
         return phoneNumber;
     }
-    public String getCompany() {
-        return company;
-    }
 
-    public void setCompany(String comapny) {
-        this.company = company;
-    }
 
     public String getPassword() {
         return password;

@@ -1,4 +1,5 @@
 package com.jobportal.JobPortal.Recruiter;
+import com.jobportal.JobPortal.Recruiter.dto.RecruiterLoginRequest;
 import com.jobportal.JobPortal.Recruiter.dto.RecruiterSignupRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,18 @@ public class RecruiterController {
 //    }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup( @RequestBody RecruiterSignupRequest request) {
+    public String signup(@RequestBody RecruiterSignupRequest request){
+        //check if email already exists
+        if (recruiterService.emailExists(request.getEmail())) {
+            return "This email is already registered. Please use a different email.";
+        }
         recruiterService.signup(request);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Recruiter registered successfully");
+        return "Registered Successfully!";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody RecruiterLoginRequest request) {
+        boolean success = recruiterService.login(request);
+        return success ? "Login Successful" : "Invalid email or password";
     }
 }
