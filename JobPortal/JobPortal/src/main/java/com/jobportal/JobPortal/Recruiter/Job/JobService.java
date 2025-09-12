@@ -2,7 +2,6 @@ package com.jobportal.JobPortal.Recruiter.Job;
 
 import com.jobportal.JobPortal.Recruiter.Recruiters.Recruiter;
 import com.jobportal.JobPortal.Recruiter.Recruiters.RecruiterRepository;
-import com.jobportal.JobPortal.Recruiter.Recruiters.RecruiterService;
 import com.jobportal.JobPortal.Recruiter.Skill.Skill;
 import com.jobportal.JobPortal.Recruiter.Skill.SkillRepository;
 import com.jobportal.JobPortal.Recruiter.dto.JobCreateRequest;
@@ -22,12 +21,15 @@ public class JobService {
 
     public Job createJob(JobCreateRequest request) {
 
-        //1. Recruiter must exists
+        // 1. Ensure recruiter exists
         Recruiter recruiter = recruiterRepository.findById(request.getRecruiterId())
                 .orElseThrow(() -> new RuntimeException("Recruiter not found"));
 
-        //2.Fetch skills
-        Set<Skill> skill = new HashSet<>(skillRepository.findAllById(request.getSkillIds()));
+        // 2. Fetch skills from IDs
+        Set<Skill> skill = new HashSet<>(skillRepository.findAllById(request.getSkillId()));
+        if (skill.isEmpty()) {
+            throw new RuntimeException("No valid skills found for given IDs");
+        }
 
         //3.Build Job
         Job job = new Job();
@@ -37,7 +39,7 @@ public class JobService {
         job.setExpiryDate(request.getExpiryDate());
         job.setSalaryPackage(request.getSalaryPackage());
         job.setJobLocation(request.getJobLocation());
-        job.setRecruiterUser(recruiter);
+        job.setRecruiter(recruiter);
         job.setSkill(skill);
 
         return jobRepository.save(job);
@@ -56,12 +58,12 @@ public class JobService {
             Job job = getJob(jobId);
             job.setTitle(request.getTitle());
             job.setDescription(request.getDescription());
-            job.setSkill(new HashSet<>(skillRepository.findAllById(request.getSkillIds())));
+            job.setSkill(new HashSet<>(skillRepository.findAllById(request.getSkillId())));
             return jobRepository.save(job);
         }
 
         public void deleteJob(Long jobId) {
             jobRepository.deleteById(jobId);
         }
-    }
+
 }

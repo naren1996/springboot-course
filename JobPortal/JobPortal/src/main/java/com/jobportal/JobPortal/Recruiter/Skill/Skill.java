@@ -14,8 +14,8 @@ public class Skill {
     private Long skillId;
     private String skillName;
 
-    @ManyToMany(mappedBy = "skill")
-    private Set<Job> jobs = new HashSet<>();
+    @ManyToMany(mappedBy = "skill", fetch = FetchType.EAGER)
+    private Set<Job> job = new HashSet<>();
 
     public Long getSkillId() {
         return skillId;
@@ -33,11 +33,11 @@ public class Skill {
         this.skillName = skillName;
     }
 
-    public void setJobs(Set<Job> jobs) {
-        this.jobs = jobs;
+    public void setJob(Set<Job> job) {
+        this.job = job;
     }
 
-    public Set<Job> getJobs() {
-        return jobs;
+    public Set<Job> getJob() {
+        return job;
     }
 }

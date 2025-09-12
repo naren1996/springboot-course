@@ -4,7 +4,9 @@ import com.jobportal.JobPortal.Recruiter.Job.Job;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "recruiter")
@@ -20,9 +22,16 @@ public class Recruiter {
     private String company;
     private String password;
 
-    @OneToMany(mappedBy = "recruiter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Job> jobs =new ArrayList<>();
+    public Set<Job> getJob() {
+        return job;
+    }
 
+    public void setJob(Set<Job> job) {
+        this.job = job;
+    }
+
+    @OneToMany(mappedBy = "recruiter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Job> job = new HashSet<>();
     public String getCompany() {
         return company;
     }
@@ -31,13 +40,7 @@ public class Recruiter {
         this.company = company;
     }
 
-    public List<Job> getJobs() {
-        return jobs;
-    }
 
-    public void setJobs(List<Job> jobs) {
-        this.jobs = jobs;
-    }
 
 
     public void setPhoneNumber(Double phoneNumber) {
@@ -94,7 +97,7 @@ public class Recruiter {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", company='" + company + '\'' +
-                ", jobs=" + jobs +
+                ", job=" + job +
                 '}';
     }
 

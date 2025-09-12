@@ -9,12 +9,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/job")
 public class JobController {
-    @Autowired private JobService jobService;
+    @Autowired
+    private JobService jobService;    // instance inject
 
-    //Create Job
     @PostMapping
-    public Job createJob(@RequestBody JobCreateRequest request){
-        return JobService.createJob(request);
+    public Job createJob(@RequestBody JobCreateRequest request) {
+        return jobService.createJob(request);   // object ke through
     }
 
     //Read All
@@ -25,20 +25,19 @@ public class JobController {
 
     //Read One
     @GetMapping("/{jobId}")
-    public Job getJob(@PathVariable Long id) {
-        return jobService.getJob(id);
+    public Job getJob(@PathVariable Long jobId) {
+        return jobService.getJob(jobId);
     }
 
     //update
     @PutMapping("/{jobId}")
-    public Job updateJob(@PathVariable Long id, @RequestBody JobCreateRequest request) {
-        return jobService.updateJob(id, request);
+    public Job updateJob(@PathVariable Long jobId, @RequestBody JobCreateRequest request) {
+        return jobService.updateJob(jobId, request);
     }
 
     //Delete
     @DeleteMapping("/{jobId}")
-    public void deleteJob(@PathVariable Long id) {
-        jobService.delteJob(id);
+    public void deleteJob(@PathVariable Long jobId) {
+        jobService.deleteJob(jobId);
     }
-
 }

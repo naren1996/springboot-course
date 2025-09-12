@@ -101,7 +101,7 @@ public class Job {
         return recruiter;
     }
 
-    public void setRecruiterUser(Recruiter recruiter) {
+    public void setRecruiter(Recruiter recruiter) {
         this.recruiter = recruiter;
     }
     public Set<Skill> getSkill() {

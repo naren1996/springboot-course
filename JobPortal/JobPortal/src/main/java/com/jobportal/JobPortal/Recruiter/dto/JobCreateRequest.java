@@ -9,7 +9,7 @@ public class JobCreateRequest {
     private String salaryPackage;
     private LocalDate expiryDate;
     private Long recruiterId;          // recruiter foreign key
-    private Set<Long> skillIds;        // list of skill IDs to attach
+    private Set<Long> skillId;        // list of skill IDs to attach
 
 //    // Constructors
 //    public JobCreateRequest() {}
@@ -62,12 +62,12 @@ public class JobCreateRequest {
         this.expiryDate = expiryDate;
     }
 
-    public Set<Long> getSkillIds() {
-        return skillIds;
+    public Set<Long> getSkillId() {
+        return skillId;
     }
 
     public void setSkillIds(Set<Long> skillIds) {
-        this.skillIds = skillIds;
+        this.skillId = skillId;
     }
 
 }
