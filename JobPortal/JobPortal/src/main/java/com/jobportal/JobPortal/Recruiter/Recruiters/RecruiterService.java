@@ -33,10 +33,10 @@ public class RecruiterService {
     }
 
    //create User
-    public String createUser(Recruiter recruiter){
-    recruiterRepository.save(recruiter);
-    return "Recruiter added successfully!";
-   }
+//    public String createUser(Recruiter recruiter){
+//    recruiterRepository.save(recruiter);
+//    return "Recruiter added successfully!";
+//   }
 
    //login
     public boolean login(RecruiterLoginRequest request){

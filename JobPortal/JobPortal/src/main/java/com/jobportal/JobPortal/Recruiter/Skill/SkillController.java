@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/recruiter/{recruiterId}/skill")
+//@RequestMapping("/recruiter/{recruiterId}/skill")
 public class SkillController {
 
     @Autowired
@@ -22,11 +22,11 @@ public class SkillController {
 //    }
 
     // Create
-    @PostMapping("/createSkill")
-    public Skill createSkill(@PathVariable Long recruiterId, @RequestBody SkillCreateRequest request) {
-        request.setRecruiterId(recruiterId);
-        return skillService.createSkill(request);
-    }
+//    @PostMapping("/createSkill")
+//    public Skill createSkill(@PathVariable Long recruiterId, @RequestBody SkillCreateRequest request) {
+//        request.setRecruiterId(recruiterId);
+//        return skillService.createSkill(request);
+//    }
 
 //    @GetMapping
 //    public List<Skill> getAllSkills() {

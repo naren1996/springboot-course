@@ -5,7 +5,10 @@ import com.jobportal.JobPortal.Recruiter.dto.SkillCreateRequest;
 import com.jobportal.JobPortal.Recruiter.dto.SkillUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class SkillService {
@@ -28,15 +31,37 @@ public class SkillService {
 
 
     // Create Skill
-    public Skill createSkill(SkillCreateRequest request) {
-        Recruiter recruiter = recruiterRepository.findById(request.getRecruiterId())
-                .orElseThrow(() -> new RuntimeException("Recruiter not found"));
+//    public Skill createSkill(SkillCreateRequest request) {
+//        Recruiter recruiter = recruiterRepository.findById(request.getRecruiterId())
+//                .orElseThrow(() -> new RuntimeException("Recruiter not found"));
+//
+//        Skill skill = new Skill();
+//        skill.setSkillName(request.getSkillName());
+//        skill.setRecruiter(recruiter);
+//        return skillRepository.save(skill);
+//    }
 
-        Skill skill = new Skill();
-        skill.setSkillName(request.getSkillName());
-        skill.setRecruiter(recruiter);
-        return skillRepository.save(skill);
+    public Set<Skill> createOrFetchSkills(Long recruiterId, List<SkillCreateRequest> skillRequests) {
+        Recruiter recruiter = recruiterRepository.findById(recruiterId)
+                .orElseThrow(() -> new RuntimeException("Recruiter not found!"));
+
+        Set<Skill> skillSet = new HashSet<>();
+
+        for (SkillCreateRequest req : skillRequests) {
+            Skill skill = skillRepository.findBySkillNameAndRecruiter(req.getSkillName(), recruiter)
+                    .orElseGet(() -> {
+                        Skill newSkill = new Skill();
+                        newSkill.setSkillName(req.getSkillName());
+                        newSkill.setRecruiter(recruiter);
+                        return skillRepository.save(newSkill);
+                    });
+            skillSet.add(skill);
+        }
+        return skillSet;
+
     }
+
+
 
     // Get All Skills by Recruiter
     public List<Skill> getSkillsByRecruiter(Long recruiterId) {

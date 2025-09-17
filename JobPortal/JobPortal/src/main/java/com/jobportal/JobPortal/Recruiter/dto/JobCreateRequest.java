@@ -1,5 +1,8 @@
 package com.jobportal.JobPortal.Recruiter.dto;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 public class JobCreateRequest {
@@ -7,9 +10,21 @@ public class JobCreateRequest {
     private String description;
     private String jobLocation;
     private String salaryPackage;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate expiryDate;
     private Long recruiterId;          // recruiter foreign key
-    private Set<Long> skillId;        // list of skill IDs to attach
+
+    //private List<String> skillNames;
+//    public List<String> getSkillNames() {
+//        return skillNames;
+//    }
+
+//    public void setSkillNames(List<String> skillNames) {
+//        this.skillNames = skillNames;
+//    }
+
+     private Set<Long> skillId;        // list of skill IDs to attach
+
 
 
     public Long getRecruiterId() {
@@ -60,11 +75,11 @@ public class JobCreateRequest {
         this.expiryDate = expiryDate;
     }
 
-    public Set<Long> getSkillId() {
-        return skillId;
-    }
-    public void setSkillId(Set<Long> skillId) {
-        this.skillId = skillId;
-    }
+//    public Set<Long> getSkillId() {
+//        return skillId;
+//    }
+//    public void setSkillId(Set<Long> skillId) {
+//        this.skillId = skillId;
+//    }
 
 }

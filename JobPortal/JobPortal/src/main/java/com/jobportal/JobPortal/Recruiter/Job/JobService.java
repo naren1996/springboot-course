@@ -18,19 +18,84 @@ public class JobService {
     @Autowired private RecruiterRepository recruiterRepository;
     @Autowired private SkillRepository skillRepository;
 
-    public Job createJob(Long recruiterId, JobCreateRequest request) {
+   // public Job createJob(Long recruiterId, JobCreateRequest request, Set<Skill> skills) {
 
         // 1. Ensure recruiter exists
-        Recruiter recruiter = recruiterRepository.findById(request.getRecruiterId())
-                .orElseThrow(() -> new RuntimeException("Recruiter not found"));
-
+//        Recruiter recruiter = recruiterRepository.findById(request.getRecruiterId())
+//                .orElseThrow(() -> new RuntimeException("Recruiter not found"));
+//        Recruiter recruiter = recruiterRepository.findById(recruiterId)
+//                .orElseThrow(() -> new RuntimeException("Recruiter not found"));
         // 2. Fetch skills from IDs
-        Set<Skill> skill = new HashSet<>(skillRepository.findAllById(request.getSkillId()));
-        if (skill.isEmpty()) {
-            throw new RuntimeException("No valid skills found for given IDs");
-        }
+//        Set<Skill> skill = new HashSet<>(skillRepository.findAllById(request.getSkillId()));
+//        if (skill.isEmpty()) {
+//            throw new RuntimeException("No valid skills found for given IDs");
+//        }
+
+        //Create Skills also
+        // Skills create or fetch
+//        Set<Skill> skillSet = new HashSet<>();
+//        for (String skillName : request.getSkillNames()) {
+//            Skill skill = skillRepository.findBySkillNameAndRecruiter(skillName, recruiter)
+//                    .orElseGet(() -> {
+//                        Skill newSkill = new Skill();
+//                        newSkill.setSkillName(skillName);
+//                       // newSkill.setRecruiter(recruiter);
+//                        return skillRepository.save(newSkill);
+//                    });
+//            skillSet.add(skill);
+//        }
 
         //3.Build Job
+//        Job job = new Job();
+//        job.setTitle(request.getTitle());
+//        job.setDescription(request.getDescription());
+//        job.setPostedDate(LocalDate.now());
+//        job.setExpiryDate(request.getExpiryDate());
+//        job.setSalaryPackage(request.getSalaryPackage());
+//        job.setJobLocation(request.getJobLocation());
+//       // job.setRecruiter(recruiter);
+//        job.setSkill(skillSet);
+//
+//        return jobRepository.save(job);
+//    }
+
+//    public Job createJob(Long recruiterId, JobCreateRequest request, Set<Skill> skills) {
+//
+//        Recruiter recruiter = recruiterRepository.findById(recruiterId)
+//                .orElseThrow(() -> new RuntimeException("Recruiter not found"));
+//
+//        // Set skills passed from controller
+//        Set<Skill> skillSet = new HashSet<>(skills);
+//
+//        // Build Job
+//        Job job = new Job();
+//        job.setTitle(request.getTitle());
+//        job.setDescription(request.getDescription());
+//        job.setPostedDate(LocalDate.now());
+//        job.setExpiryDate(request.getExpiryDate());
+//        job.setSalaryPackage(request.getSalaryPackage());
+//        job.setJobLocation(request.getJobLocation());
+//        job.setRecruiter(recruiter);
+//        job.setSkill(skillSet);
+//
+//        return jobRepository.save(job);
+//    }
+
+    public Job createJob(Long recruiterId, JobCreateRequest request, Set<Skill> skills) {
+
+        Recruiter recruiter = recruiterRepository.findById(recruiterId)
+                .orElseThrow(() -> new RuntimeException("Recruiter not found"));
+
+        // Make sure all skills have recruiter set
+        Set<Skill> skillSet = new HashSet<>();
+        for (Skill s : skills) {
+            if (s.getRecruiter() == null) {
+                s.setRecruiter(recruiter);
+                s = skillRepository.save(s);
+            }
+            skillSet.add(s);
+        }
+
         Job job = new Job();
         job.setTitle(request.getTitle());
         job.setDescription(request.getDescription());
@@ -38,12 +103,17 @@ public class JobService {
         job.setExpiryDate(request.getExpiryDate());
         job.setSalaryPackage(request.getSalaryPackage());
         job.setJobLocation(request.getJobLocation());
-        job.setRecruiter(recruiter);
-        job.setSkill(skill);
+        job.setRecruiter(recruiter); // must set recruiter
+        job.setSkill(skillSet);
 
         return jobRepository.save(job);
     }
-        //Get all jobs
+    //get all job with skills
+    public List<Job> getAllJobsWithSkills() {
+        return jobRepository.findAll();
+    }
+
+    //Get all jobs
         public List<Job> listJobsByRecruiter(Long recruiterId) {
             return jobRepository.findByRecruiter_RecruiterId(recruiterId);
         }
@@ -81,7 +151,6 @@ public class JobService {
         if (!job.getRecruiter().getRecruiterId().equals(recruiterId)) {
             throw new RuntimeException("Not authorized");
         }
-
         jobRepository.delete(job);
     }
 

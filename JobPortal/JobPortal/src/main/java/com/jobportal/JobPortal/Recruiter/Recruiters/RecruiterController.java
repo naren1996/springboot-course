@@ -35,6 +35,6 @@ public class RecruiterController {
     @PostMapping("/login")
     public String login(@RequestBody RecruiterLoginRequest request) {
         boolean success = recruiterService.login(request);
-        return success ? "Login Successful" : "Invalid email or password";
+        return success ? "Login Successful!" : "Invalid email or password !";
     }
 }

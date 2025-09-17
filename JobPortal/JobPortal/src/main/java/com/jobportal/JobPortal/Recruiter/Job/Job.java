@@ -1,4 +1,5 @@
 package com.jobportal.JobPortal.Recruiter.Job;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jobportal.JobPortal.Recruiter.Recruiters.Recruiter;
 import com.jobportal.JobPortal.Recruiter.Skill.Skill;
 import jakarta.persistence.*;
@@ -17,13 +18,14 @@ public class Job {
     private String jobLocation;
     private String salaryPackage;
     private LocalDate postedDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate expiryDate;
 
     @ManyToOne
     @JoinColumn(name = "recruiter_id")
     private Recruiter recruiter;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "job_skill",
             joinColumns = @JoinColumn(name = "job_id"),
