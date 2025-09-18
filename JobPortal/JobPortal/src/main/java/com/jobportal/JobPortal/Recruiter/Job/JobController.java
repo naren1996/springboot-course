@@ -1,10 +1,7 @@
 package com.jobportal.JobPortal.Recruiter.Job;
 import com.jobportal.JobPortal.Recruiter.Skill.Skill;
 import com.jobportal.JobPortal.Recruiter.Skill.SkillService;
-import com.jobportal.JobPortal.Recruiter.dto.JobCreateRequest;
-import com.jobportal.JobPortal.Recruiter.dto.JobUpdateRequest;
-import com.jobportal.JobPortal.Recruiter.dto.JobWithSkillsRequest;
-import com.jobportal.JobPortal.Recruiter.dto.SkillCreateRequest;
+import com.jobportal.JobPortal.Recruiter.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/recruiter/{recruiterId}/job")
+@RequestMapping("/recruiter/job")
 //@RequestMapping("/recruiter/job")
 public class JobController {
     @Autowired
@@ -34,7 +31,7 @@ public class JobController {
 //    }
 
     //When each recruiter creates their own skill during job post
-    @PostMapping("/post_job")
+    @PostMapping("/post_job/{recruiterId}")
     public Job createJobWithSkills(@PathVariable Long recruiterId,
                                    @RequestBody JobWithSkillsRequest request) {
 
@@ -45,17 +42,16 @@ public class JobController {
         return jobService.createJob(recruiterId, request.getJobRequest(), skills);
     }
 
-//    @GetMapping("/all")
-//    public ResponseEntity<List<Job>> getAllJobsWithSkills() {
-//        List<Job> jobs = jobService.getAllJobsWithSkills();
-//        return ResponseEntity.ok(jobs);
-//    }
+    @GetMapping("/jobs-with-skills/{recruiterId}")
+    public List<JobWithSkillsResponse> getRecruiterJobsWithSkills(@PathVariable Long recruiterId) {
+        return jobService.getRecruiterJobsWithSkills(recruiterId);
+    }
 
-    //Read All
-//    @GetMapping("/viewAllJob")
-//    public List<Job> listJobs(){
-//        return jobService.getAllJobs();
-//    }
+
+    @GetMapping("/viewAllJobs")
+    public List<JobWithSkillsResponse> getAllJobs() {
+        return jobService.getAllJobsWithSkills();
+    }
 
     @GetMapping("/viewAllJob")
     public List<Job> listJobsByRecruiter(@PathVariable Long recruiterId) {
@@ -69,12 +65,6 @@ public class JobController {
     }
 
     //update
-//    @PutMapping(value = "/jobUpdate/{jobId}")
-//    public Job updateJob(@PathVariable Long jobId, @RequestBody JobCreateRequest request) {
-//        return jobService.updateJob(jobId, request);
-//    }
-
-    //update
     @PutMapping("/jobUpdate/{jobId}")
     public Job updateJob(@PathVariable Long recruiterId,
                          @PathVariable Long jobId,
@@ -82,11 +72,6 @@ public class JobController {
         return jobService.updateJob(recruiterId, jobId, request);
     }
 
-    //Delete
-//    @DeleteMapping("/deleteJob/{jobId}")
-//    public void deleteJob(@PathVariable Long jobId) {
-//        jobService.deleteJob(jobId);
-//    }
 
     @DeleteMapping("/deleteJob/{jobId}")
     public void deleteJob(@PathVariable Long recruiterId,

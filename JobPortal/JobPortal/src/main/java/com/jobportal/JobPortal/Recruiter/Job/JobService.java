@@ -5,10 +5,12 @@ import com.jobportal.JobPortal.Recruiter.Skill.Skill;
 import com.jobportal.JobPortal.Recruiter.Skill.SkillRepository;
 import com.jobportal.JobPortal.Recruiter.dto.JobCreateRequest;
 import com.jobportal.JobPortal.Recruiter.dto.JobUpdateRequest;
+import com.jobportal.JobPortal.Recruiter.dto.JobWithSkillsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -18,69 +20,7 @@ public class JobService {
     @Autowired private RecruiterRepository recruiterRepository;
     @Autowired private SkillRepository skillRepository;
 
-   // public Job createJob(Long recruiterId, JobCreateRequest request, Set<Skill> skills) {
-
-        // 1. Ensure recruiter exists
-//        Recruiter recruiter = recruiterRepository.findById(request.getRecruiterId())
-//                .orElseThrow(() -> new RuntimeException("Recruiter not found"));
-//        Recruiter recruiter = recruiterRepository.findById(recruiterId)
-//                .orElseThrow(() -> new RuntimeException("Recruiter not found"));
-        // 2. Fetch skills from IDs
-//        Set<Skill> skill = new HashSet<>(skillRepository.findAllById(request.getSkillId()));
-//        if (skill.isEmpty()) {
-//            throw new RuntimeException("No valid skills found for given IDs");
-//        }
-
-        //Create Skills also
-        // Skills create or fetch
-//        Set<Skill> skillSet = new HashSet<>();
-//        for (String skillName : request.getSkillNames()) {
-//            Skill skill = skillRepository.findBySkillNameAndRecruiter(skillName, recruiter)
-//                    .orElseGet(() -> {
-//                        Skill newSkill = new Skill();
-//                        newSkill.setSkillName(skillName);
-//                       // newSkill.setRecruiter(recruiter);
-//                        return skillRepository.save(newSkill);
-//                    });
-//            skillSet.add(skill);
-//        }
-
-        //3.Build Job
-//        Job job = new Job();
-//        job.setTitle(request.getTitle());
-//        job.setDescription(request.getDescription());
-//        job.setPostedDate(LocalDate.now());
-//        job.setExpiryDate(request.getExpiryDate());
-//        job.setSalaryPackage(request.getSalaryPackage());
-//        job.setJobLocation(request.getJobLocation());
-//       // job.setRecruiter(recruiter);
-//        job.setSkill(skillSet);
-//
-//        return jobRepository.save(job);
-//    }
-
-//    public Job createJob(Long recruiterId, JobCreateRequest request, Set<Skill> skills) {
-//
-//        Recruiter recruiter = recruiterRepository.findById(recruiterId)
-//                .orElseThrow(() -> new RuntimeException("Recruiter not found"));
-//
-//        // Set skills passed from controller
-//        Set<Skill> skillSet = new HashSet<>(skills);
-//
-//        // Build Job
-//        Job job = new Job();
-//        job.setTitle(request.getTitle());
-//        job.setDescription(request.getDescription());
-//        job.setPostedDate(LocalDate.now());
-//        job.setExpiryDate(request.getExpiryDate());
-//        job.setSalaryPackage(request.getSalaryPackage());
-//        job.setJobLocation(request.getJobLocation());
-//        job.setRecruiter(recruiter);
-//        job.setSkill(skillSet);
-//
-//        return jobRepository.save(job);
-//    }
-
+    //creating job with skills
     public Job createJob(Long recruiterId, JobCreateRequest request, Set<Skill> skills) {
 
         Recruiter recruiter = recruiterRepository.findById(recruiterId)
@@ -108,10 +48,77 @@ public class JobService {
 
         return jobRepository.save(job);
     }
-    //get all job with skills
-    public List<Job> getAllJobsWithSkills() {
-        return jobRepository.findAll();
+
+    //To see all job and skill one time which is uploaded by recruiter
+    public List<JobWithSkillsResponse> getRecruiterJobsWithSkills(Long recruiterId) {
+        List<Job> jobs = jobRepository.findByRecruiter_RecruiterId(recruiterId);
+
+        // Final response list
+        List<JobWithSkillsResponse> responseList = new ArrayList<>();
+
+        for (Job job : jobs) {
+            JobWithSkillsResponse dto = new JobWithSkillsResponse();
+            dto.setJobId(job.getJobId());
+            dto.setTitle(job.getTitle());
+            dto.setDescription(job.getDescription());
+            dto.setJobLocation(job.getJobLocation());
+            dto.setSalaryPackage(job.getSalaryPackage());
+            dto.setPostedDate(job.getPostedDate());
+            dto.setExpiryDate(job.getExpiryDate());
+
+            // Skills ka set banate hain
+            Set<String> skillNames = new HashSet<>();
+            for (Skill skill : job.getSkill()) {
+                skillNames.add(skill.getSkillName());
+            }
+            dto.setSkills(skillNames);
+
+            // dto ko list me add kar diya
+            responseList.add(dto);
+        }
+
+        return responseList;
     }
+
+    public List<JobWithSkillsResponse> getAllJobsWithSkills() {
+        List<Job> jobs = jobRepository.findAll();
+        List<JobWithSkillsResponse> responseList = new ArrayList<>();
+
+        for (Job job : jobs) {
+            JobWithSkillsResponse dto = new JobWithSkillsResponse();
+            dto.setJobId(job.getJobId());
+            dto.setTitle(job.getTitle());
+            dto.setDescription(job.getDescription());
+            dto.setJobLocation(job.getJobLocation());
+            dto.setSalaryPackage(job.getSalaryPackage());
+            dto.setPostedDate(job.getPostedDate());
+            dto.setExpiryDate(job.getExpiryDate());
+
+            // Recruiter info also
+            if (job.getRecruiter() != null) {
+               // dto.setRecruiterId(job.getRecruiter().getRecruiterId());
+                dto.setRecruiterName(job.getRecruiter().getName());
+            }
+
+            // Skills add karo
+            Set<String> skillNames = new HashSet<>();
+            if (job.getSkill() != null) {
+                for (Skill skill : job.getSkill()) {
+                    skillNames.add(skill.getSkillName());
+                }
+            }
+            dto.setSkills(skillNames);
+
+            responseList.add(dto);
+        }
+
+        return responseList;
+    }
+
+//    //get all job with skills
+//    public List<Job> getAllJobsWithSkills() {
+//        return jobRepository.findAll();
+//    }
 
     //Get all jobs
         public List<Job> listJobsByRecruiter(Long recruiterId) {
