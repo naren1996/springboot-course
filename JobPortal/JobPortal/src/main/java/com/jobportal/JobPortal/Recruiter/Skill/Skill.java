@@ -13,9 +13,8 @@ public class Skill {
     private Long skillId;
     private String skillName;
 
-    @ManyToMany(mappedBy = "skill")
+    @ManyToMany(mappedBy = "skill", cascade = CascadeType.ALL)
     private Set<Job> job = new HashSet<>();
-
 
     @ManyToOne
     @JoinColumn(name = "recruiter_id", nullable = false)

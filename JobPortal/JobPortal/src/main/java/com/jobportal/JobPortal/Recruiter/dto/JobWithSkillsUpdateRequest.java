@@ -1,17 +1,16 @@
 package com.jobportal.JobPortal.Recruiter.dto;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import java.time.LocalDate;
-import java.util.Set;
 
-public class JobCreateRequest {
+import java.time.LocalDate;
+import java.util.List;
+
+public class JobWithSkillsUpdateRequest {
+    private Long recruiterId;   // check authorization
     private String title;
     private String description;
     private String jobLocation;
     private String salaryPackage;
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate expiryDate;
-    private Long recruiterId;  // recruiter foreign key
-    private Set<Long> skillId;        // list of skill IDs to attach
+    private List<String> skills;
 
     public Long getRecruiterId() {
         return recruiterId;
@@ -59,5 +58,13 @@ public class JobCreateRequest {
 
     public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
     }
 }

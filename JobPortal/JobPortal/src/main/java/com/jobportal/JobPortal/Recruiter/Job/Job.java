@@ -4,7 +4,9 @@ import com.jobportal.JobPortal.Recruiter.Recruiters.Recruiter;
 import com.jobportal.JobPortal.Recruiter.Skill.Skill;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,7 +27,7 @@ public class Job {
     @JoinColumn(name = "recruiter_id")
     private Recruiter recruiter;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "job_skill",
             joinColumns = @JoinColumn(name = "job_id"),

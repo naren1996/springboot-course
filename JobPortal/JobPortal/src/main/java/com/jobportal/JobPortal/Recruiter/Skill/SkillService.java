@@ -128,7 +128,5 @@ public class SkillService {
 
         skillRepository.delete(skill);
     }
-
-
 }
 

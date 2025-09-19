@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/recruiter/{recruiterId}/skill")
+@RequestMapping("/recruiter/{recruiterId}/skill")
 public class SkillController {
 
     @Autowired
@@ -63,18 +63,18 @@ public class SkillController {
 //        return skillService.updateSkill(, )
 //    }
 
-        // Update
-        @PutMapping("/update/{skillId}")
-        public Skill updateSkill (@PathVariable Long recruiterId,
-                @PathVariable Long skillId,
-                @RequestBody SkillUpdateRequest request) {
-            request.setRecruiterId(recruiterId);
-            return skillService.updateSkill(skillId, request);
-        }
+    // Update
+    @PutMapping("/update/{skillId}")
+    public Skill updateSkill (@PathVariable Long recruiterId,
+                              @PathVariable Long skillId,
+                              @RequestBody SkillUpdateRequest request) {
+        request.setRecruiterId(recruiterId);
+        return skillService.updateSkill(skillId, request);
+    }
 
-        // Delete
-        @DeleteMapping("/delete/{skillId}")
-        public void deleteSkill (@PathVariable Long skillId, @PathVariable Long recruiterId){
-            skillService.deleteSkill(skillId, recruiterId);
-        }
+    // Delete
+    @DeleteMapping("/delete/{skillId}")
+    public void deleteSkill (@PathVariable Long skillId, @PathVariable Long recruiterId){
+        skillService.deleteSkill(skillId, recruiterId);
+    }
 }

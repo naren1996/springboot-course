@@ -10,12 +10,11 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/recruiter/job")
-//@RequestMapping("/recruiter/job")
 public class JobController {
     @Autowired
     private JobService jobService;
     @Autowired
-    private SkillService skillService;// instance inject
+    private SkillService skillService;
 
 //    @PostMapping("/post_job")
 //    public Job createJob(@RequestBody JobCreateRequest request) {
@@ -34,8 +33,6 @@ public class JobController {
     @PostMapping("/post_job/{recruiterId}")
     public Job createJobWithSkills(@PathVariable Long recruiterId,
                                    @RequestBody JobWithSkillsRequest request) {
-
-        // Create or fetch skills for this recruiter
         Set<Skill> skills = skillService.createOrFetchSkills(recruiterId, request.getSkills());
 
         // Pass skills to service
@@ -65,15 +62,23 @@ public class JobController {
     }
 
     //update
-    @PutMapping("/jobUpdate/{jobId}")
+    @PutMapping("/jobUpdate/{jobId}/{recruiterId}")
     public Job updateJob(@PathVariable Long recruiterId,
                          @PathVariable Long jobId,
                          @RequestBody JobUpdateRequest request) {
         return jobService.updateJob(recruiterId, jobId, request);
     }
+    //update job with skills
+    @PutMapping("update/{jobId}/{recruiterId}")
+    public Job updateJobWithSkills(@PathVariable Long recruiterId,
+                                   @PathVariable Long jobId,
+                                   @RequestBody JobWithSkillsUpdateRequest request) {
+        request.setRecruiterId(recruiterId);
+        return jobService.updateJobWithSkills(jobId, request);
+    }
 
 
-    @DeleteMapping("/deleteJob/{jobId}")
+    @DeleteMapping("/deleteJob/{recruiterId}/{jobId}")
     public void deleteJob(@PathVariable Long recruiterId,
                           @PathVariable Long jobId) {
         jobService.deleteJob(recruiterId, jobId);

@@ -24,6 +24,7 @@ public class Recruiter {
 
     @OneToMany(mappedBy = "recruiter", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Job> job = new HashSet<>();
+
     public String getCompany() {
         return company;
     }
